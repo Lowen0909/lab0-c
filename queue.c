@@ -15,7 +15,9 @@
 struct list_head *q_new()
 {
     struct list_head *q = malloc(sizeof(struct list_head));
-    INIT_LIST_HEAD(q);
+    /*malloc failure*/
+    if (q)
+        INIT_LIST_HEAD(q);
     return q;
 }
 
@@ -43,10 +45,10 @@ bool q_insert_head(struct list_head *head, char *s)
     if (!head)
         return false;
     element_t *ele = malloc(sizeof(element_t));
-
+    if (!ele)
+        return false;
     char *s1 = malloc(strlen(s) + 1);
-    if (!s1 || !ele) {
-        free(s1);
+    if (!s1) {
         free(ele);
         return false;
     }
@@ -63,10 +65,10 @@ bool q_insert_tail(struct list_head *head, char *s)
     if (!head)
         return false;
     element_t *ele = malloc(sizeof(element_t));
-
+    if (!ele)
+        return false;
     char *s1 = malloc(strlen(s) + 1);
-    if (!s1 || !ele) {
-        free(s1);
+    if (!s1) {
         free(ele);
         return false;
     }
